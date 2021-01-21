@@ -67,14 +67,20 @@ Un nginx con configuracion de proxypass a la api
 `docker-compose up -d mygateway`   
 `xdg-open http://localhost:8888/api/v1/users`
 
-## Frontend
+## Frontend NODE
 Servicio:  myfrontend
 
 - Creacion de la aplicacion web en contenedor
 `docker-compose build myfrontend`   
 
+## Frontend Laravel
+Servicio:  lareaweb
 
+- Creacion de la aplicacion laravel web en contenedor
+`docker-compose build laraweb`   
 
+- Podemos ejecutarla así
+`docker run --rm --network daw_default -v $(pwd)/laravel.env:/var/www/laravel/.env -p 8082:80 -it laraweb`
 
 == CREAR UN PROYECTO LARAVEL ==
 docker run --rm -v $(PWD):/hostlocal -w /hostlocal -it srlopez/laravel:6.12 composer create-project --prefer-dist laravel/laravel src
