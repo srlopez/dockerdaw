@@ -24,8 +24,8 @@ db data root/1234
 `xdg-open http://localhost:8088`   
 
 - Creamos la DB y añadimos algún dato  
-`docker exec -i mysql8 mysql -u root -p1234 data <data.sql`  
-`docker exec -it mysql8 mysql -u root -p1234 data -e "select * from users;"`
+`docker exec -i mysqlc mysql -u root -p1234 data <../appdata/data.sql`  
+`docker exec -it mysqlc mysql -u root -p1234 data -e "select * from users;"`
 
 
 ## Contenedor de la api
