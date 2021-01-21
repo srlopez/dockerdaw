@@ -6,9 +6,22 @@ Publica una aplicación frontend web para hacer un CRUD 7077
 El backend api persiste datos en MYSQL
 Y se publica un GUI para gestión de MYSQL 8088
 
-docker-compose up -d mydb mydbadmin
-docker-compose up --scale myapi=5
+Para arrancar todo la primera vez, arancamos la db e insertamos algún registro. Luego arrancamos el resto de servicios (sin -d para ver como se va accediendo a distintos contenedores de la api)
 
+```sh
+docker-compose up -d mydb mydbadmin
+docker exec -i mysqlc mysql -u root -p1234 data <../appdata/data.sql
+docker exec -it mysqlc mysql -u root -p1234 data -e "select * from users;"
+docker-compose up --scale myapi=5
+```
+
+Comprobamos que todo va en los links
+
+[phpmyadmin](http://localhost:8088): `xdg-open http://localhost:8088`   
+
+[api](http://localhost:7000/api/v1/users): `xdg-open http://localhost:7000/api/v1/users`  
+[gateway](http://localhost:8888/api/v1/users): `xdg-open http://localhost:8888/api/v1/users`  
+[frontend](http://localhost:7077): `xdg-open http://localhost:7077`  
 
 
 ## Setup DB y frontend para DB

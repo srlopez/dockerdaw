@@ -74,7 +74,7 @@ services:
       MYSQL_ROOT_PASSWORD: 1234
       # MYSQL_ALLOW_EMPTY_PASSWORD: "true"
     volumes:
-      - ./dbdata:/var/lib/mysql
+      - ../appdata/dbdata:/var/lib/mysql
 
   # GUI para mysql
   # http://localhost:8088    
