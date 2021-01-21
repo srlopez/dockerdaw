@@ -2,7 +2,7 @@ version: '3'
 # docker-compose up -d --scale myapi=5
 services:
 
-  # Aplicación WEB 
+  # Aplicación WEB node
   myfrontend:
     # docker-compose build myfrontend
     # docker run --rm --name web --network appdocker_default -it -e INNERAPIHOST=lb:80 -e PUBLICAPIHOST=localhost:8888 -p 7077:7077 myfrontend 
@@ -17,6 +17,25 @@ services:
       INNERAPIHOST: "mygateway:80"
     ports: 
       - "7077:7077"
+    depends_on:
+      - mygateway
+
+  # Aplicación WEB en Laravel con APACHE
+  laraweb:
+    # docker-compose build laraweb
+    # docker run --rm -w /var/www/laravel  -p 9999:80 -v $(PWD)/laravel.env:/var/www/laravel/.env:ro --name l1 -it laraweb:1.0 bash
+    #      php artisan serve --host 0.0.0.0 --port 80
+    # docker-compose -f docker-compose-lara.yml up -d laraweb   
+    # docker run --rm --network daw_default -v `pwd`/laravel.env:/var/www/laravel/.env -p 8081:80 -it laraweb
+    build: 
+      context: ../applara
+      dockerfile: Dockerfile
+    image: laraweb
+    container_name: laraweb
+    volumes:
+      - ../applara/laravel.env:/var/www/laravel/.env:ro
+    ports: 
+      - "8081:80"
     depends_on:
       - mygateway
 

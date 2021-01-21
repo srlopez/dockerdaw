@@ -15,6 +15,7 @@ console.log('MYUSER:     '+process.env.MYUSER)
 console.log('MYPASSWORD: '+process.env.MYPASSWORD)
 console.log('MYDATABASE: '+process.env.MYDATABASE)
 
+// Chapuza de solucion
 console.log('esperando...');
 function sleep(milliseconds) {
   const date = Date.now();
@@ -25,6 +26,8 @@ function sleep(milliseconds) {
 }
 sleep(3000); // Espera a que mysql se haya arrancado
 console.log('conectando...');
+// Fin chapuza
+
 
 var conn =  mysql.createConnection({
   host: process.env.MYDBHOST || "localhost",
@@ -62,10 +65,15 @@ app.use(bodyParser.json());
 
 //====
 app.get('/', (req, res) => {
+  var os = require("os");
+  var hostname = os.hostname();
   res.status(200).send({
     success: "true",
     status: 200,
-    data: {},
+    data: {
+      hostname:hostname, 
+      port:  server.address().port
+    },
     timestamp: (new Date()).toUTCString()
   })
 })

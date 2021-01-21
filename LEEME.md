@@ -1,6 +1,6 @@
 ## 
 
-Lanza 5 contenedores y myapi lo lanza 5 veces.
+Lanza 6 contenedores y myapi lo lanza 5 veces.
 Publica una aplicación frontend web para hacer un CRUD 7077
 Ésta se conecta a un gateway que hace de balanceador 8888 scon una API REST
 El backend api persiste datos en MYSQL
@@ -18,10 +18,12 @@ docker-compose up --scale myapi=5
 Comprobamos que todo va en los links
 
 [phpmyadmin](http://localhost:8088): `xdg-open http://localhost:8088`   
-
+A la api no podemos acceder si la hemos escalado, y la permitimos en docker-compose
 [api](http://localhost:7000/api/v1/users): `xdg-open http://localhost:7000/api/v1/users`  
-[gateway](http://localhost:8888/api/v1/users): `xdg-open http://localhost:8888/api/v1/users`  
+[gateway control](http://localhost:8888/): `xdg-open http://localhost:8888/`  
+[gateway api](http://localhost:8888/api/v1/users): `xdg-open http://localhost:8888/api/v1/users`  
 [frontend](http://localhost:7077): `xdg-open http://localhost:7077`  
+[laravelweb](http://localhost:8081): `xdg-open http://localhost:8081`  
 
 
 ## Setup DB y frontend para DB
