@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>daw</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+  <a href="#" onClick="window.location.reload();">frontend appweb</a>
+</br>
+  <a href="<%= api %>" title="API"><%= api %></a>
+  <div class="row">
+    <div class="column left">
+      <h4>Formulario</h4>
+
+      <!--form-->
+      <input type="hidden" id="_id" name="_id">
+      <input id="name" type="text" placeholder="name" name="name"></br>
+      <input id="email" type="text" placeholder="email" name="email"></br>
+      </br>
+      <button id="bNew" onclick="onNew()" title="INSERT - API POST">ADD</button>
+      <button disabled id="bUpdate" onclick="onUpdate()" title="UPDATE - API PUT">UPDATE</button>
+      <!--/form-->
+    </div>
+    <div class="column right">
+      <h4>
+        Lista
+        </h4>
+      <ul id="users">
+        <% for(var i=0; i<users.length; i++) {%>
+        <li>
+          <button onclick="api_delete_id('<%= users[i]._id %>')" title="DEL <%= users[i]._id %>">DEL</button>
+          <button onclick="setUserForm('<%= users[i]._id %>','<%= users[i].name %>','<%= users[i].email %>');" title="EDIT <%= users[i]._id %>">EDIT</button>
+          <a href="<%= api %>/<%= users[i]._id %>'" title="API GET <%= users[i]._id %>"><%= users[i].name %>
+            <%= users[i].email %></a>
+        </li>
+        <% }; %>
+      </ul>
+    </div>
+  </div>
+  <script>
+   const apiusers = '<%= api %>';
+  </script>
+  <script src="/main.js"></script>
+</body>
+
+</html>

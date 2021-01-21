@@ -1,0 +1,20 @@
+{
+  "name": "appweb",
+  "version": "1.0.0",
+  "description": "DAW appweb para consumir appapi",
+  "license": "(MIT OR Apache-2.0)",
+  "main": "appweb.js",
+  "repository": {
+    "type": "git",
+    "url": "https://srlopez@dev.azure.com/srlopez/appweb/_git/appweb"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node appweb.js"
+  },
+  "dependencies": {
+    "cross-fetch": "^3.0.4",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1"
+  }
+}

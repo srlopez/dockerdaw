@@ -1,0 +1,109 @@
+version: '3'
+# docker-compose up -d --scale myapi19=5
+services:
+
+  # Aplicación WEB en Laravel con APACHE
+  laraweb:
+    # docker-compose -f docker-compose-lara.yml build laraweb
+    # docker run --rm -w /var/www/laravel  -p 9999:80 -v $(PWD)/laravel.env:/var/www/laravel/.env:ro --name l1 -it laraweb:1.0 bash
+    #      php artisan serve --host 0.0.0.0 --port 80
+    # docker-compose -f docker-compose-lara.yml up -d laraweb   
+    build: 
+      context: .
+      dockerfile: Dockerfile.lara
+    image: laraweb:1.0
+    container_name: laraweb
+    volumes:
+      - ./laravel.env:/var/www/laravel/.env:ro
+    ports: 
+      - "8881:80"
+    depends_on:
+      - gateway19
+
+  # Aplicación WEB node
+  myweb19:
+    # docker-compose build myweb19
+    # docker run --rm --name web --network appdocker_default -it -e INNERAPIHOST=lb:80 -e PUBLICAPIHOST=localhost:8888 -p 7077:7077 myweb19:1.0  
+    # INNERAPIHOST=localhost:8888 PUBLICAPIHOST=localhost:8888 node appweb.js
+    build: 
+      context: .
+      dockerfile: Dockerfile.web
+    image: myweb19:1.0
+    container_name: web
+    environment: 
+      PUBLICAPIHOST: "localhost:8888"
+      INNERAPIHOST: "gateway19:80"
+    ports: 
+      - "7077:7077"
+    depends_on:
+      - gateway19
+
+  # Servicio balanceador de carga
+  gateway19:
+    image: nginx:latest
+    container_name: lb
+    volumes:
+      # En la configuración está indicado que el hosts
+      # que vamos a acceder es myapi19
+      # nginx no soporta variables de entorno para conf
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    # Necesitamos publicar la port
+    # Ya que desde el browser se ha de acceder
+    # Y debe ser resulto por DNS fuera de dockers
+    ports:
+      - 8888:80
+    depends_on:
+      - myapi19
+
+  # Servicio de API
+  myapi19:
+    # docker-compose build myapi19
+    # docker run --rm -it -e MYDBHOST=localhost -p 7000:7000 myapi19:1.0
+    build: 
+      context: .
+      dockerfile: Dockerfile.api
+    image: myapi19:1.0
+    environment:
+      MYDBHOST: mysql19
+      MYDATABASE: mydb
+      MYUSER: root
+      MYPASSWORD: 
+    # expose:
+    #   - "7000"
+    # ports: 
+    #   - "7000:7000"
+    depends_on:
+      - mysql19
+
+  # SQL Service
+  # docker run -d --rm --name mysql5 -p 3306:3306 -v $(PWD)/dbdata:/var/lib/mysql mysql:5.7
+  # docker exec -it mysql5.7 mysql mydb
+  # y podemos ejecutar mydb.sql para crear datos
+  mysql19:
+    image: mysql:5.7
+    container_name: mysql5
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: mydb
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    volumes:
+      - ./dbdata:/var/lib/mysql
+
+  # GUI para mysql
+  # http://localhost:8088    
+  # root/(no password)
+  myadmin19:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "8088:80"
+    environment:
+      # MYSQL_ROOT_PASSWORD: ""
+      PMA_HOST: mysql19
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    depends_on:
+      - mysql19
+
+

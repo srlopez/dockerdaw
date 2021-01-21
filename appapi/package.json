@@ -1,0 +1,20 @@
+{
+  "name": "appapi",
+  "version": "1.0.0",
+  "description": "DAW API",
+  "license": "(MIT OR Apache-2.0)",
+  "main": "appapi.js",
+  "repository": {
+    "type": "git",
+    "url": "https://srlopez@dev.azure.com/srlopez/appapi/_git/appapi"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "@windyroad/wait-on-mysql": "1.0.0"
+  },
+  "scripts": {
+    "start": "node appapi.js"
+  }
+}

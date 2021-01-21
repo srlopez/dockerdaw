@@ -1,0 +1,38 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Container.puml
+
+
+LAYOUT_TOP_DOWN
+
+title Diagrama de Contenedores
+
+System_Boundary(c0, "externo") {
+    Person_Ext(user, "Cliente WEB")
+    Person_Ext(userl, "Cliente LARAVEL")
+    Person_Ext(admin, "DB Admin")
+    System(app, "Cliente API")
+}
+
+System_Boundary(c1, "docker-compose.yml") {
+    Container(web_app, "Frontend WEB", "Node - express", "Simple CRUD")
+    Container(web_lara, "Frontend WEB", "Laravel", "Simple CRUD")
+    Container(gateway, "Balanceador", "Nginx", "proxy_pass")
+    Container(api_app, "Backend API", "Node - express", "Api escalada con composer")
+    Container(db_gui, "Frontend DB", "phpMyAdmin", "Administración del servidor")
+    ContainerDb(db, "Database", "mySQL", "Los datos")
+}
+
+
+Rel(userl, web_lara, "8881", "Páginas WEB")
+Rel_U(userl, gateway, "8888", "API Pública")
+Rel(user, web_app, "7077", "Páginas WEB")
+Rel_U(user, gateway, "8888", "API Pública")
+Rel(web_app, gateway, "80", "API Interna")
+Rel(gateway, api_app, "7000", "API Real")
+Rel(api_app, db, "3306", "HTTP")
+Rel(db_gui, db, "3306", "HTTP")
+Rel(admin, db_gui, "8088", "Administración")
+Rel(app, gateway, "8888", "API Pública")
+
+
+@enduml
