@@ -1,8 +1,11 @@
 @startuml
-!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
+' LAYOUT_TOP_DOWN()
+' Para visializar este grafico en VSCODE necesitas los plugins:
+' PlantUML y C4 DSL Extension
+' ALT+D -> Muestra el gráfico
 
-LAYOUT_TOP_DOWN
 
 title Diagrama de Contenedores
 
@@ -23,7 +26,7 @@ System_Boundary(c1, "docker-compose.yml") {
 }
 
 
-Rel(userl, web_lara, "8881", "Páginas WEB")
+Rel(userl, web_lara, "8081", "Páginas WEB")
 Rel_U(userl, gateway, "8888", "API Pública")
 Rel(user, web_app, "7077", "Páginas WEB")
 Rel_U(user, gateway, "8888", "API Pública")
